@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace plugintutorial1
+namespace InterstellarAccelerator
 {
     public class ModuleMassAccelerator: PartModule
     {
@@ -63,11 +63,13 @@ namespace plugintutorial1
             }
 
         }
+
         void DisarmAcceleratorTimeout()
         {
             enableShutdowntimeout = true;
             disarmTimeout = 10;
         }
+
         void DisarmNetwork(Vessel v)
         {
             var massAccelerators = v.FindPartModulesImplementing<ModuleMassAccelerator>();
@@ -78,9 +80,8 @@ namespace plugintutorial1
                     a.DisarmAcceleratorTimeout();
                 }
             }
-            
-
         }
+
         private void armNetwork()
         {
             foreach (Vessel v in FlightGlobals.Vessels)
@@ -94,8 +95,8 @@ namespace plugintutorial1
 
                 }
             }
-
         }
+
         private void disarmNetwork()
         {
             foreach (Vessel v in FlightGlobals.Vessels)
@@ -109,8 +110,8 @@ namespace plugintutorial1
 
                 }
             }
-
         }
+
         private void PlayStartAnimation(Animation StartAnimation, string startAnimationName, int speed, bool instant)
         {
             if (startAnimationName != "")
@@ -125,11 +126,11 @@ namespace plugintutorial1
                 StartAnimation.Play(startAnimationName);
             }
         }
+
         public void PlayAnimation(string name, bool rewind, bool instant, bool loop)
         {
             // note: assumes one ModuleAnimateGeneric (or derived version) for this part
             // if this isn't the case, needs fixing. That's cool, I called in the part.cfg
-
 
             {
 
@@ -149,11 +150,9 @@ namespace plugintutorial1
                         PlayStartAnimation(xanim, name, (rewind) ? (-1) : (1), instant);
                     }
                 }
-
             }
-
-
         }
+
         Vessel getLaunchTarget()
         {
             foreach(Vessel v in FlightGlobals.Vessels)
@@ -163,10 +162,12 @@ namespace plugintutorial1
             }
             return null;
         }
+
         Vessel getClosestVesselToLoadPoint(out double distance)
         {
            return getClosestVesselToLoadPoint(out distance, false);
         }
+
         Vessel getClosestVesselToLoadPoint(out double distance, bool debug)
         {
             var subTransform = this.part.FindModelTransform("LoadingPoint");
@@ -209,6 +210,7 @@ namespace plugintutorial1
             
  	         base.OnActive();
         }
+
         void pullLaunchTargetToLaunchPosition(float dt)
         {
             var subTransform = this.part.FindModelTransform("LoadingPoint");
@@ -222,10 +224,7 @@ namespace plugintutorial1
                 var spent = part.RequestResource(resourceName, dt * resourceAmount * f);
                 if (spent == 0)
                 {
-                   
                     f = 0;
-                   
-
                 }
                    
                 double m = vLaunchTarget.RevealMass();
@@ -244,6 +243,7 @@ namespace plugintutorial1
                 
             }
         }
+
         public override void OnUpdate()
         {
               double dt = TimeWarp.deltaTime;
@@ -358,11 +358,7 @@ namespace plugintutorial1
                         }
                     }
                 }
-
             }
-
-
-
 
             base.OnUpdate();
         }
@@ -402,9 +398,8 @@ namespace plugintutorial1
                 armed = true;
                 status = "armed";
             }
-            
-
         }
+
         [KSPEvent(guiName = "Disarm Accelerator", guiActive = false)]
         void DisarmAccelerator()
         {
@@ -419,7 +414,8 @@ namespace plugintutorial1
             disarmNetwork();
 
         }
-         [KSPEvent(guiName = "Fire Accelerator", guiActive=false)]
+
+        [KSPEvent(guiName = "Fire Accelerator", guiActive=false)]
         void fire()
          {
              armNetwork();
@@ -435,10 +431,8 @@ namespace plugintutorial1
              Events["StartCountdown"].guiActive = false;
              countdownTime = 10;
              countdown = true;
-             
-
-
          }
+
         bool vesselHasEnoughResource(string name, float rc)
         {
             if (this.vessel == FlightGlobals.ActiveVessel)
@@ -462,248 +456,8 @@ namespace plugintutorial1
             }
             return false;
         }
-
-
     }
-    //this one is to be added via the module manager to EVERYTHING so that we can scale the parts correctly.
-    public class VABScaleDetector:PartModule
-    {
-        public override void OnStart(PartModule.StartState state)
-        {
-            EditorLogic logic = EditorLogic.fetch;
-
-             if (logic != null)
-            {
-                Debug.Log("found editor logic!");
-                
-                Debug.Log(logic.ship[0].scaleFactor);
-                
-                foreach(Part p in logic.ship.parts)
-                {
-                    var moduleList = p.FindModulesImplementing<StructuralIntegrityField>();
-                    if(moduleList.Count != 0)
-                    {
-                        StructuralIntegrityField mod = moduleList[0];
-                        if(mod.sizeState)
-                        {
-                            //don't rescale a strut.
-                            if(this.part.FindModuleImplementing<CompoundParts.CModuleStrut>() == null ) 
-                                this.part.rescaleFactor = .02f;
-                            //this.part.partTransform.localScale = new Vector3(.02f, .02f, .02f);
-                            this.part.srfAttachNode.position *= .02f;
-                            foreach (AttachNode node in part.attachNodes)
-                            {
-                               // node.size = 1;
-                                node.originalPosition /= 50.0f;
-                                //node.position /= 50.0f;
-                            }
-                          
-                             
-                            var lightsOnModel = part.FindModelComponents<Light>();
-                            if (lightsOnModel != null)
-                                foreach (Light l in lightsOnModel)
-                                    l.enabled = false;
-                        }
-
-                    }
-
-                }
-
-
-
-                //logic.ship;
-
-            }
-            base.OnStart(state);
-        }
-
-    }
-
-    public class StructuralIntegrityField : PartModule
-    {
-        [KSPField(isPersistant = false, guiActive = false)]
-        public int fieldStrength = 40000000;
-        [KSPField(isPersistant = false, guiActive = false)]
-        public float fieldRange = 2500;
-
-        bool oneshotPrint = false;
-        public override void OnStart(PartModule.StartState state)
-        {
-            EditorLogic logic = EditorLogic.fetch;
-            
-            if (logic != null)
-            {
-                Debug.Log("found editor logic!");
-                
-                Debug.Log(logic.ship[0].scaleFactor);
-                
-                //logic.ship;
-               
-            }
-            base.OnStart(state);
-        }
-        public bool sizeState = false; //false means full size
-        [KSPEvent(guiName = "Editing mode...", guiActive = false, guiActiveEditor= true)]
-        public void scaleMe()
-        {
-            
-            sizeState = !sizeState;
-            EditorLogic logic = EditorLogic.fetch;
-            if (logic != null)
-            {
-                if (this.part != logic.ship.parts[0])
-                {
-                    Debug.Log("Part must be root for editing mode.");
-                    return;
-                }
-                Debug.Log("found editor logic!");
-                
-                Debug.Log(logic.ship[0].scaleFactor);
-                if(sizeState)
-                    part.partTransform.localScale = new Vector3(.02f, .02f, .02f);
-                else
-                    part.partTransform.localScale = new Vector3(1f, 1f, 1f);
-                
-                foreach(Part p in logic.ship.parts)
-                {
-                    if (sizeState)
-                    {
-                        if(vessel != null)
-                        {
-
-                            Debug.Log("found vessel!");
-                            //vessel.vesselTransform.localScale *= .02f;
-
-                        }
-                       // p.transform.localScale *= .02f;
-                        if (p == this.part)
-                            continue;
-                       
-                       //todo: scale the attach nodes too
-                        foreach (AttachNode node in p.attachNodes)
-                        {
-                            //node.size = 1;
-                            node.position *= .02f;
-                        }
-                        var lightsOnModel = p.FindModelComponents<Light>();
-                        if (lightsOnModel != null)
-                            foreach (Light l in lightsOnModel)
-                                l.enabled = false;
-                               
-                        p.srfAttachNode.position *= .02f;
-                      
-                        
-                    }
-                    else
-                    {
-                       // p.transform.localScale *= 100.0f;
-                        Debug.Log(p.rescaleFactor);
-                        if (p == this.part)
-                        {
-                           
-                            continue;
-                        }
-                       // if (p.rescaleFactor != 1)
-                          //  p.partTransform.localScale = new Vector3(50.0f, 50.0f, 50.0f);
-                       // else
-                            //p.partTransform.localScale = new Vector3(1.0f,1.0f,1.0f);
-                        p.rescaleFactor = 1;
-                        p.srfAttachNode.position *= 50.0f;
-                        foreach (AttachNode node in p.attachNodes)
-                        {
-                            Debug.Log(node.position);
-                            node.position *= 50.0f;
-
-                        }
-                        logic.saveBtn.enabled = true;
-                    }
-
-
-
-                }
-                //logic.ship;
-               
-            }
-            
-
-        }
-
-        public override void OnActive()
-        {
-          
-            var partlist = this.vessel.GetActiveParts();
-            foreach (Part p in partlist)
-            {
-                print(p.name + " " + p.crashTolerance + " " + p.breakingForce + " " + p.breakingTorque);
-                //print(p.collider.active);
-                print(p.attachMethod);
-                p.crashTolerance = fieldStrength;
-                p.breakingForce = fieldStrength;
-                p.breakingTorque = fieldStrength;
-               // p.attachMethod = AttachNodeMethod.FIXED_JOINT;
-                
-
-            }
-             var vesselList = FlightGlobals.Vessels;
-              foreach(Vessel v in vesselList)
-            {
-                print(v.RevealName());
-                print(v.distancePackThreshold);
-                print(v.distanceUnpackThreshold);
-                  
-
-            }
-            base.OnActive();
-            oneshotPrint = true;
-        }
-        void setNoRailsArea()
-        {
-
-           
-            var vesselList = FlightGlobals.Vessels;
-            var myloc = vessel.GetWorldPos3D();
-           // if(oneshotPrint)
-           // {
-            //    print(Vessel.unloadDistance);
-            //    oneshotPrint = false;
-            //}
-           // Vessel.unloadDistance = 120000;
-           // Vessel.loadDistance = 120000;
-            foreach (Vessel v in vesselList)
-            {
-                // print(v.RevealName());
-                //print(v.packed);
-                //print(v.distancePackThreshold);
-                // print(v.distanceUnpackThreshold);
-
-                var theirloc = v.GetWorldPos3D();
-                if (Vector3.Distance(myloc, theirloc) < fieldRange)
-                {
-                    v.distanceUnpackThreshold = fieldRange;
-
-                }
-
-
-            }
-        }
-        public override void OnFixedUpdate()
-        {
-            setNoRailsArea();
-            base.OnFixedUpdate();
-        }
-       
-       //every part attached to the vessel with this module gets a crash tolerance of fieldStrength, and breaking force/torque to match
-        public override void OnUpdate()
-        {
-           
-
-            setNoRailsArea();
-            base.OnUpdate();
-           
-        }
-
-
-    }
+    
     //public class automatedConstruction: ExLP.ExWorkshop
     //{
 
