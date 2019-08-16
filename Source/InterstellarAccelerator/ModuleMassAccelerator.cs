@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Linq;
 using UnityEngine;
 
 namespace InterstellarAccelerator
 {
+    [KSPModule("Mass Accelerator")]
     public class ModuleMassAccelerator: PartModule
     {
         [KSPField(isPersistant = false, guiActive = false)]
@@ -50,6 +52,8 @@ namespace InterstellarAccelerator
         bool firing = false;
         double countdownTime = 999;
         bool countdown = false;
+
+
 
         void armNetwork(Vessel v)
         {
@@ -279,7 +283,7 @@ namespace InterstellarAccelerator
 
                             print("distance betwen them" + Vector3.Distance(transform.position, subTransform.position).ToString());
                             //var accelerateVector = this.part.transform.position - vLaunchTarget.GetWorldPos3D();
-                            var accelerateVector = this.part.transform.position - testlocation;
+                            var accelerateVector = (this.part.transform.position - testlocation).normalized;
                             print("accelerate vector is " + accelerateVector.ToString());
                             //f = m/a
                             //f is in Kn
@@ -363,6 +367,18 @@ namespace InterstellarAccelerator
             base.OnUpdate();
         }
 
+        [KSPEvent(guiName = "Detach Bottom", guiActive = true)]
+        void DetachIdTop()
+        {
+            Debug.Log("[Accelerator]: looking for node with id chamber");
+            var attachnode = part.attachNodes.SingleOrDefault(m => m.id == "chamber");
+            if (attachnode != null && attachnode.attachedPart != null)
+            {
+                Debug.Log("[Accelerator]: found attachnode chamber connected to " + attachnode.attachedPart.flightID);
+                attachnode.attachedPart.decouple();
+            }
+        }
+
         [KSPEvent(guiName = "Arm Accelerator", guiActive=true)]
         void ArmAccelerator()
         {
@@ -407,12 +423,11 @@ namespace InterstellarAccelerator
             status = "Idle";
             
             Events["fire"].guiActive = false;
-          Events["StartCountdown"].guiActive = false;
+            Events["StartCountdown"].guiActive = false;
             Events["DisarmAccelerator"].guiActive = false;
             Events["ArmAccelerator"].guiActive = true;
             PlayAnimation(armedAnimation, true, false, false);
             disarmNetwork();
-
         }
 
         [KSPEvent(guiName = "Fire Accelerator", guiActive=false)]
@@ -421,10 +436,9 @@ namespace InterstellarAccelerator
              armNetwork();
              firetime = 0;
              status = "firing";
-             firing = true;
-                 
-
+             firing = true;            
          }
+
          [KSPEvent(guiName = "Start Countdown", guiActive = false)]
          void StartCountdown()
          {
@@ -455,6 +469,11 @@ namespace InterstellarAccelerator
                 //}
             }
             return false;
+        }
+
+        public override string GetInfo()
+        {
+            return "";
         }
     }
     
