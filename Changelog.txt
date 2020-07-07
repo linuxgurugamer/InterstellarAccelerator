@@ -1,0 +1,42 @@
+Changelog
+
+1.3.4
+	Enabled on-screen display of countdown 
+	Adoption by Linuxgurugamer
+	Added license file
+	Added build scripts
+	Moved source directory up one level
+	Added AssemblyVersion.tt
+	Added InstallChecker.cs
+	Added version file
+	Renamed mod to NeatherdyneMassDriver
+	Replaced all "foreach" statements with more efficient for (i = 0; i < ??.Count(); i++)
+	Added standard Log class
+	Replaced all print with Log.Info
+	Replaced all Debug.Log with Log.Info
+	Added setting to have custom countdown length (1-30 seconds)
+	Added power setting, tied to difficulty.  Normal = 1, easy is 2, harder is < 1, multiplied against the config value
+	Fixed nonsense display of 15 significant digits for the countdown
+	Added on-screen countdown
+	Big cleanup of redundent and repetitive code in ModuleMassAccelerator
+	Changed attach settings so parts don't have surface attach mode
+
+1.3.1
+	Compiled against KSP 1.7.3
+
+1.3
+	Compiled against KSP 1.7.3
+
+1.1.1
+	Fixed colliders of Mass Driver, allowing parts to pass through the rings (credits by rspeed)
+
+1.1
+	Compiled against KSP 1.2.2
+
+1.0.1
+	Recomplided and repackaged for KSP 1.1.3
+
+
+
+
+

@@ -1,0 +1,25 @@
+{
+  "NAME": "NeatherdyneMassDriver",
+  "URL": "http://ksp.spacetux.net/avc/NeatherdyneMassDriver",
+  "DOWNLOAD": "https://github.com/LinuxGuruGamer/NeatherdyneMassDriver/releases",
+  "GITHUB": {
+    "USERNAME": "linuxgurugamer",
+    "REPOSITORY": "NeatherdyneMassDriver"
+  },
+  "VERSION": {
+    "MAJOR": 1,
+    "MINOR": 3,
+    "PATCH": 4,
+    "BUILD": 1
+  },
+  "KSP_VERSION": {
+    "MAJOR": 1,
+    "MINOR": 8,
+    "PATCH": 1
+  },
+  "KSP_VERSION_MIN": {
+    "MAJOR": 1,
+    "MINOR": 8,
+    "PATCH": 0
+  }
+}

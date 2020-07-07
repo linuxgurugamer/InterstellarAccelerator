@@ -1,0 +1,9 @@
+LOG : Opening file : D:\Users\jbb\github\NeatherdyneMassDriver\GameData\NeatherdyneMassDriver\Part\Accelerator\model000.png
+LOG : Converting D:\Users\jbb\github\NeatherdyneMassDriver\GameData\NeatherdyneMassDriver\Part\Accelerator\model000.png to D:\Users\jbb\github\NeatherdyneMassDriver\GameData\NeatherdyneMassDriver\Part\Accelerator\model000.dds
+ERR : Unknown file format P8, skipping conversion for D:\Users\jbb\github\NeatherdyneMassDriver\GameData\NeatherdyneMassDriver\Part\Accelerator\model000.png
+LOG : Converting D:\Users\jbb\github\NeatherdyneMassDriver\GameData\NeatherdyneMassDriver\Part\Accelerator\model000.png to D:\Users\jbb\github\NeatherdyneMassDriver\GameData\NeatherdyneMassDriver\Part\Accelerator\model000.dds
+ERR : Unknown file format P8, skipping conversion for D:\Users\jbb\github\NeatherdyneMassDriver\GameData\NeatherdyneMassDriver\Part\Accelerator\model000.png
+LOG : Opening file : D:\Users\jbb\github\NeatherdyneMassDriver\GameData\NeatherdyneMassDriver\Part\Accelerator\model002.png
+LOG : Opening file : D:\Users\jbb\github\NeatherdyneMassDriver\GameData\NeatherdyneMassDriver\Part\Accelerator\model005.png
+LOG : Converting D:\Users\jbb\github\NeatherdyneMassDriver\GameData\NeatherdyneMassDriver\Part\Accelerator\model005.png to D:\Users\jbb\github\NeatherdyneMassDriver\GameData\NeatherdyneMassDriver\Part\Accelerator\model005.dds
+ERR : Unknown file format P8, skipping conversion for D:\Users\jbb\github\NeatherdyneMassDriver\GameData\NeatherdyneMassDriver\Part\Accelerator\model005.png
