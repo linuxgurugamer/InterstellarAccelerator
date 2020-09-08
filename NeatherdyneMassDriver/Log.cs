@@ -19,7 +19,7 @@ namespace NeatherdyneMassDriver
 
         public static LEVEL level = LEVEL.INFO;
 
-        private static readonly String PREFIX = "FillItUp" + ": ";
+        private static readonly String PREFIX = "NeatherdyneMassDriver" + ": ";
 
         public static LEVEL GetLevel()
         {

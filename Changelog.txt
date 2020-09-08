@@ -1,5 +1,8 @@
 Changelog
 
+1.3.4.1
+	Updated costs and entryCosts for all mass driver parts
+
 1.3.4
 	Enabled on-screen display of countdown 
 	Adoption by Linuxgurugamer
@@ -20,6 +23,19 @@ Changelog
 	Added on-screen countdown
 	Big cleanup of redundent and repetitive code in ModuleMassAccelerator
 	Changed attach settings so parts don't have surface attach mode
+	Added window when armed
+	Cleaned up code
+	Rewrote calculations to apply force only while vessel is inside tube
+	Removed old "network" code
+	Multiple accelerators can now be controlled at the same time
+	Enabled built-in decoupler
+	Enabled Detach from bottom Action, action is hidden if nothing attached
+	Replaced hard-coded window ID with generated from WindowHelper
+	Added recording flight data into log files
+	New dependencies
+		ClickThroughBlocker
+		ToolBarController
+		SpaceTuxLibrary
 
 1.3.1
 	Compiled against KSP 1.7.3

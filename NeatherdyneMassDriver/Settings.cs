@@ -1,8 +1,6 @@
-﻿
-using System.Collections;
+﻿using System.Collections;
 using System.Reflection;
 
-#if true
 
 namespace NeatherdyneMassDriver
 {
@@ -46,11 +44,15 @@ namespace NeatherdyneMassDriver
         [GameParameters.CustomFloatParameterUI("Power Level ", displayFormat = "N0", minValue = 0.1f, maxValue = 10f, stepCount = 100, asPercentage = false)]
         public float powerLevel = 1.0f;
 
-        [GameParameters.CustomIntParameterUI("Countdown length", displayFormat = "N0", minValue = 1, maxValue = 30)]
-        public int countdownLength = 10;
+        [GameParameters.CustomFloatParameterUI("Countdown length", displayFormat = "N0", minValue = 1, maxValue = 30, stepCount = 300, asPercentage =false)]
+        public float countdownLength = 10;
 
         [GameParameters.CustomParameterUI("Countdown on screen")]
         public bool countdownOnScreen = true;
+
+        [GameParameters.CustomParameterUI("Use alt skin ",
+          toolTip = "Use an alternate skin")]
+        public bool useAltSkin = true;
 
 
 
@@ -64,5 +66,3 @@ namespace NeatherdyneMassDriver
         }
     }
 }
-
-#endif

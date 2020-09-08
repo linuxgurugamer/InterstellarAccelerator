@@ -68,15 +68,13 @@ namespace NeatherdyneMassDriver
         public void Start()
         {
             Log.Info("ModuleMassAccelerator.Start");
-            if (!master)
-                Fields["status"].guiActive = false;
-            if (!master)
+            if (!master && !HighLogic.LoadedSceneIsEditor)
             {
+                Fields["status"].guiActive = false;
                 Events["StartCountdown"].guiActive = false;
                 Events["Fire"].guiActive = false;
                 Events["DisarmAccelerator"].guiActive = false;
                 Events["ArmAccelerator"].guiActive = false;
-
             }
 
             {
@@ -243,7 +241,7 @@ namespace NeatherdyneMassDriver
                 var pullVector = position - vLaunchTarget.GetWorldPos3D();
                 //  Log.Info("pull vector " + pullVector.ToString());
                 // Log.Info("acceleration " + (pullVector * dt).ToString());
-                double f = powerLevel * AcceleratorForce / 100;
+                double f = powerLevel / 100 * AcceleratorForce;
                 var spent = part.RequestResource(resourceName, dt * resourceAmount * f);
                 if (spent == 0)
                 {
